@@ -46,16 +46,16 @@ Make sure you have the following installed on your system:
    MAIL_SERVICE_PASSWORD=yourpassword123
    ```
 
-4. **Run the Server**
-   Build the server using the following command:
+4. **Build the Server**
+
    ```bash
    go build main.go
    ```
 
-   Run the server using the following command:
+5. **Run the Server**
    ```bash
    ./main.exe
    ```
 
-   The server will typically run on `http://localhost:8080`. You can configure the port in the code if needed.
+   The server will run on `http://localhost:8080`.
 
