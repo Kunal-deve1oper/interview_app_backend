@@ -1,0 +1,5 @@
+package jobrolequery
+
+func AllRoleFromDB() {
+
+}
