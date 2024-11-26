@@ -47,9 +47,14 @@ Make sure you have the following installed on your system:
    ```
 
 4. **Run the Server**
-   Start the server using the following command:
+   Build the server using the following command:
    ```bash
-   go run main.go
+   go build main.go
+   ```
+
+   Run the server using the following command:
+   ```bash
+   ./main.exe
    ```
 
    The server will typically run on `http://localhost:8080`. You can configure the port in the code if needed.
