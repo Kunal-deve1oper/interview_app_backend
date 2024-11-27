@@ -6,7 +6,7 @@ type Candidate struct {
 	Id           string    `json:"id"`
 	Name         string    `json:"name"`
 	Email        string    `json:"email"`
-	Phone_No     string    `json:"phone_no"`
+	PhoneNo      string    `json:"phoneNo"`
 	Address      string    `json:"address"`
 	Organization string    `json:"organization"`
 	Experience   int       `json:"experience"`

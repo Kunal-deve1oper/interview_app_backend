@@ -9,20 +9,21 @@ import (
 )
 
 func SendMail(subject string, receiver string, message string) {
-	m := gomail.NewMessage()
+	go func() {
+		m := gomail.NewMessage()
 
-	m.SetHeader("From", os.Getenv("MAIL_SERVICE_EMAIL"))
-	m.SetHeader("To", receiver)
+		m.SetHeader("From", os.Getenv("MAIL_SERVICE_EMAIL"))
+		m.SetHeader("To", receiver)
 
-	m.SetHeader("Subject", subject)
-	m.SetBody("text/html", message)
+		m.SetHeader("Subject", subject)
+		m.SetBody("text/html", message)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, os.Getenv("MAIL_SERVICE_EMAIL"), os.Getenv("MAIL_SERVICE_PASSWORD"))
+		d := gomail.NewDialer("smtp.gmail.com", 587, os.Getenv("MAIL_SERVICE_EMAIL"), os.Getenv("MAIL_SERVICE_PASSWORD"))
 
-	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+		d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
-	if err := d.DialAndSend(m); err != nil {
-		log.Print(err)
-	}
-
+		if err := d.DialAndSend(m); err != nil {
+			log.Print(err)
+		}
+	}()
 }
