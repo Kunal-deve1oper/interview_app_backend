@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Kunal-deve1oper/interview_app_backend/internal/middleware"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/models"
 	jobrolequery "github.com/Kunal-deve1oper/interview_app_backend/internal/services/jobroleQuery"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/utils"
@@ -22,13 +23,19 @@ Request = POST
 	  "skills":type string,
 	  "experience": type int,
 	  "minATS": type int,
-	  "createdBy": string
 	}
 */
 func AddRole(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 	userInput := models.UserRole{}
+
+	// accessing claims set my the middleware
+	claims, ok := r.Context().Value(middleware.UserClaimsKey).(*models.UserClaims)
+	if !ok {
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "Unable to get claims", "Unable to get claims")
+		return
+	}
 
 	// Decode the request body
 	if err := json.NewDecoder(r.Body).Decode(&userInput); err != nil {
@@ -38,14 +45,14 @@ func AddRole(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate required fields
-	if strings.TrimSpace(userInput.Name) == "" || strings.TrimSpace(userInput.Skills) == "" || strings.TrimSpace(userInput.CreatedBy) == "" {
+	if strings.TrimSpace(userInput.Name) == "" || strings.TrimSpace(userInput.Skills) == "" || strings.TrimSpace(claims.Id) == "" {
 		utils.SendErrorResponse(w, http.StatusBadRequest, "Missing required fields", "Required fields are empty or invalid")
 		log.Printf("Validation failed: missing required fields in request body: %v", userInput)
 		return
 	}
 
 	// add the role to the database
-	res, err := jobrolequery.AddRoleToDB(userInput)
+	res, err := jobrolequery.AddRoleToDB(userInput, claims.Id)
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Database operation failed", "Failed to add role to the database")
 		log.Printf("Database insertion failed: %v", err)

@@ -7,7 +7,7 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/models"
 )
 
-func AddRoleToDB(data models.UserRole) (models.Role, error) {
+func AddRoleToDB(data models.UserRole, createdBy string) (models.Role, error) {
 	var id string
 	var createdAt, updatedAt time.Time
 	addedData := models.Role{}
@@ -17,9 +17,10 @@ func AddRoleToDB(data models.UserRole) (models.Role, error) {
 			INSERT INTO Roles (name, skills, experience, minATS, createdBy) 
 			values ($1, $2, $3, $4, $5) 
 			RETURNING id,createdAt,updatedAt
-	
-			`
-	err := config.DB.QueryRow(query, data.Name, data.Skills, data.Experience, data.MinATS, data.CreatedBy).Scan(&id, &createdAt, &updatedAt)
+		`
+
+	// querying DB
+	err := config.DB.QueryRow(query, data.Name, data.Skills, data.Experience, data.MinATS, createdBy).Scan(&id, &createdAt, &updatedAt)
 	if err != nil {
 		return addedData, err
 	}
@@ -30,7 +31,7 @@ func AddRoleToDB(data models.UserRole) (models.Role, error) {
 	addedData.Skills = data.Skills
 	addedData.Experience = data.Experience
 	addedData.MinATS = data.MinATS
-	addedData.CreatedBy = data.CreatedBy
+	addedData.CreatedBy = createdBy
 	addedData.CreatedAt = createdAt
 	addedData.UpdatedAt = updatedAt
 	return addedData, nil

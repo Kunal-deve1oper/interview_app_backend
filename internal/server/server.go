@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Kunal-deve1oper/interview_app_backend/internal/middleware"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/routes"
 	"github.com/rs/cors"
 )
@@ -17,7 +18,7 @@ func New() *Server {
 		mux: http.NewServeMux(),
 	}
 
-	routes.RegisterRoutes(s.mux)
+	routes.RegisterRoutes(s.mux, middleware.JWTMiddleware)
 	return s
 }
 

@@ -18,5 +18,4 @@ type UserRole struct {
 	Skills     string `json:"skills"`
 	Experience int    `json:"experience"`
 	MinATS     int    `json:"minATS"`
-	CreatedBy  string `json:"createdBy"`
 }
