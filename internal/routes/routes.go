@@ -9,5 +9,6 @@ import (
 func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handler) {
 	mux.Handle("GET /allJobRole", middleware(http.HandlerFunc(jobrole.AllRole)))
 	mux.Handle("POST /addJobRole", middleware(http.HandlerFunc(jobrole.AddRole)))
-	mux.Handle("POST /updateJobRole", middleware((http.HandlerFunc(jobrole.UpdateRole))))
+	mux.Handle("PUT /updateJobRole", middleware(http.HandlerFunc(jobrole.UpdateRole)))
+	mux.Handle("DELETE /deleteJobRole", middleware(http.HandlerFunc(jobrole.DeleteRole)))
 }

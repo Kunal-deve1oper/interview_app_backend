@@ -39,15 +39,16 @@ func AllRole(w http.ResponseWriter, r *http.Request) {
 	// getting all job roles from DB for a particular user
 	jobRoles, err := jobrolequery.AllRoleFromDB(claims.Id)
 	if err != nil {
-		log.Printf("Error querying from database: %v", err)
-		http.Error(w, "Failed to querying from database", http.StatusInternalServerError)
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "Database operation failed", "Failed to find all role from the database")
+		log.Printf("failed to get all roles of a current admin: %v", err)
 		return
 	}
 
 	// sending the data to the user
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(jobRoles); err != nil {
-		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-		log.Printf("Error encoding response: %v", err)
+		log.Printf("Failed to encode JSON response: %v", err)
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "Response generation failed", "Failed to encode JSON response")
+		return
 	}
 }
