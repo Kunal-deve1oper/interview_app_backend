@@ -45,14 +45,14 @@ func AddRole(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate required fields
-	if strings.TrimSpace(userInput.Name) == "" || strings.TrimSpace(userInput.Skills) == "" || strings.TrimSpace(claims.Id) == "" {
+	if strings.TrimSpace(userInput.Name) == "" || strings.TrimSpace(userInput.Skills) == "" || strings.TrimSpace(claims.UserID["id"]) == "" {
 		utils.SendErrorResponse(w, http.StatusBadRequest, "Missing required fields", "Required fields are empty or invalid")
 		log.Printf("Validation failed: missing required fields in request body: %v", userInput)
 		return
 	}
 
 	// add the role to the database
-	res, err := jobrolequery.AddRoleToDB(userInput, claims.Id)
+	res, err := jobrolequery.AddRoleToDB(userInput, claims.UserID["id"])
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Database operation failed", "Failed to add role to the database")
 		log.Printf("Database insertion failed: %v", err)

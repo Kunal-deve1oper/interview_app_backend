@@ -30,14 +30,14 @@ func AllRole(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate required fields
-	if strings.TrimSpace(claims.Id) == "" {
+	if strings.TrimSpace(claims.UserID["id"]) == "" {
 		utils.SendErrorResponse(w, http.StatusBadRequest, "admin id is missing", "admin id is missing")
 		log.Print("Validation failed: admin id is missing")
 		return
 	}
 
 	// getting all job roles from DB for a particular user
-	jobRoles, err := jobrolequery.AllRoleFromDB(claims.Id)
+	jobRoles, err := jobrolequery.AllRoleFromDB(claims.UserID["id"])
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Database operation failed", "Failed to find all role from the database")
 		log.Printf("failed to get all roles of a current admin: %v", err)

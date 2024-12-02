@@ -12,6 +12,7 @@ import (
 func ValidateJWT(tokenString string) (*models.UserClaims, error) {
 	var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 	claims := &models.UserClaims{}
+
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -19,8 +20,21 @@ func ValidateJWT(tokenString string) (*models.UserClaims, error) {
 		return jwtSecret, nil
 	})
 
-	if err != nil || !token.Valid {
-		return nil, err
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse token: %w", err)
+	}
+
+	if !token.Valid {
+		return nil, fmt.Errorf("invalid token")
+	}
+
+	// Check required fields
+	if claims.UserID == nil ||
+		claims.UserID["id"] == "" ||
+		claims.UserID["name"] == "" ||
+		claims.UserID["email"] == "" ||
+		claims.UserID["orgId"] == "" {
+		return nil, fmt.Errorf("missing required claims")
 	}
 
 	return claims, nil

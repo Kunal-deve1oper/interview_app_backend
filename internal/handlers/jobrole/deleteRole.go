@@ -31,14 +31,14 @@ func DeleteRole(w http.ResponseWriter, r *http.Request) {
 
 	// Validate required fields
 	id := r.URL.Query().Get("id")
-	if strings.TrimSpace(id) == "" || strings.TrimSpace(claims.Id) == "" {
+	if strings.TrimSpace(id) == "" || strings.TrimSpace(claims.UserID["id"]) == "" {
 		utils.SendErrorResponse(w, http.StatusBadRequest, "id is missing", "id is missing")
 		log.Print("Validation failed: id is missing")
 		return
 	}
 
 	// deleting a job role
-	res, err := jobrolequery.DeleteRoleFromDB(id, claims.Id)
+	res, err := jobrolequery.DeleteRoleFromDB(id, claims.UserID["id"])
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "failed to delete row", "failed to delete row")
 		log.Printf("failed to delete row: %s", id)
