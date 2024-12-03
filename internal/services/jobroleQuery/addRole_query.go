@@ -14,8 +14,8 @@ func AddRoleToDB(data models.UserRole, createdBy string) (models.Role, error) {
 
 	// query to add job role to table Roles in the database
 	query := `
-			INSERT INTO "Roles" ("name", "skills", "experience", "minATS", "createdBy") 
-			values ($1, $2, $3, $4, $5) 
+			INSERT INTO "Roles" ("id","name", "skills", "experience", "minATS", "createdBy") 
+			values (gen_random_uuid(),$1, $2, $3, $4, $5) 
 			RETURNING "id","createdAt","updatedAt"
 		`
 
