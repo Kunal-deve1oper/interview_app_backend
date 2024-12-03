@@ -14,9 +14,9 @@ func UpdateRoleToDB(updatedInput models.Role) (models.Role, error) {
 	// query to update a row in table Role
 	query := `
 			UPDATE "Roles"
-			SET name = $1, skills = $2, experience = $3, minATS = $4, updatedAt = CURRENT_TIMESTAMP
-			WHERE id = $5
-			RETURNING updatedAt
+			SET "name" = $1, "skills" = $2, "experience" = $3, "minATS" = $4, "updatedAt" = CURRENT_TIMESTAMP
+			WHERE "id" = $5
+			RETURNING "updatedAt"
 		`
 
 	// querying DB
