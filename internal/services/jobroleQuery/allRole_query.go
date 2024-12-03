@@ -12,7 +12,7 @@ func AllRoleFromDB(id string) ([]models.Role, error) {
 	// query to find all the roles created by a user
 	query := `
 		SELECT id,name,skills,experience,minATS,createdBy,createdAt,updatedAt 
-		FROM Roles
+		FROM "Roles"
 		WHERE createdBy = $1
 	`
 
