@@ -11,7 +11,7 @@ func AllRoleFromDB(id string) ([]models.Role, error) {
 
 	// query to find all the roles created by a user
 	query := `
-		SELECT "id","name","skills","experience","minATS","createdBy","createdAt","updatedAt" 
+		SELECT "id","name","skills","experience","minATS","createdBy","expired","createdAt","updatedAt" 
 		FROM "Roles"
 		WHERE "createdBy" = $1
 	`
@@ -29,7 +29,7 @@ func AllRoleFromDB(id string) ([]models.Role, error) {
 	// extracting and appending each row
 	for rows.Next() {
 		var jobRole models.Role
-		err := rows.Scan(&jobRole.Id, &jobRole.Name, &jobRole.Skills, &jobRole.Experience, &jobRole.MinATS, &jobRole.CreatedBy, &jobRole.CreatedAt, &jobRole.UpdatedAt)
+		err := rows.Scan(&jobRole.Id, &jobRole.Name, &jobRole.Skills, &jobRole.Experience, &jobRole.MinATS, &jobRole.CreatedBy, &jobRole.Expired, &jobRole.CreatedAt, &jobRole.UpdatedAt)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan project: %w", err)
 		}

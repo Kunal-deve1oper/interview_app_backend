@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Kunal-deve1oper/interview_app_backend/internal/middleware"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/models"
 	jobrolequery "github.com/Kunal-deve1oper/interview_app_backend/internal/services/jobroleQuery"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/utils"
@@ -23,6 +24,7 @@ authentication = Bearer token
 	  "experience": 3,
 	  "minATS": 80,
 	  "createdBy": "a6316878-b270-4b41-9d29-647e0478d1e3",
+	  "expired": false,
 	  "createdAt": "2024-11-29T19:48:49.925669Z",
 	  "updatedAt": "2024-11-29T19:48:49.925669Z"
 	}
@@ -31,6 +33,13 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 	updatedInput := models.Role{}
+
+	claims, ok := r.Context().Value(middleware.UserClaimsKey).(*models.UserClaims)
+	if !ok {
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "unable to get claims", "unable to get claims")
+		log.Print("unable to get claims")
+		return
+	}
 
 	// Decode the request body
 	if err := json.NewDecoder(r.Body).Decode(&updatedInput); err != nil {
@@ -47,7 +56,7 @@ func UpdateRole(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// update contents to DB
-	res, err := jobrolequery.UpdateRoleToDB(updatedInput)
+	res, err := jobrolequery.UpdateRoleToDB(updatedInput, claims.UserID["id"])
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Database operation failed", "Failed to update role to the database")
 		log.Printf("Database role updation failed: %v", err)

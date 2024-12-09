@@ -9,6 +9,7 @@ type Role struct {
 	Experience int       `json:"experience"`
 	MinATS     int       `json:"minATS"`
 	CreatedBy  string    `json:"createdBy"`
+	Expired    bool      `json:"expired"`
 	CreatedAt  time.Time `json:"createdAt"`
 	UpdatedAt  time.Time `json:"updatedAt"`
 }
