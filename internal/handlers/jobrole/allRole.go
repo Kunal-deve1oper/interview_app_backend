@@ -13,9 +13,37 @@ import (
 )
 
 /*
-path = /allJobRole
-method = GET
-authentication = Bearer token
+# function to get all job role of an admin
+
+	path = /allJobRole
+	method = GET
+	authentication = Bearer token
+
+# RESPONSE
+
+	if all good
+	status : 200
+
+[
+
+	{
+	  "id": "48e160e1-3a66-4dc5-a9ee-aba701fc1fb5",
+	  "name": "Go developer",
+	  "skills": "GO,CSS,HTML,JAVASCRIPT,AWS",
+	  "experience": 3,
+	  "minATS": 80,
+	  "createdBy": "a6316878-b270-4b41-9d29-647e0478d1e3",
+	  "expired": false,
+	  "createdAt": "2024-11-29T19:48:49.925669Z",
+	  "updatedAt": "2024-11-29T19:48:49.925669Z"
+	},
+
+]
+
+	if error
+	{
+		"error": error message,
+	}
 */
 func AllRole(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()

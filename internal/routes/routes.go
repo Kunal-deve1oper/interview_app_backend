@@ -13,8 +13,11 @@ func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handl
 	mux.Handle("POST /addJobRole", middleware(http.HandlerFunc(jobrole.AddRole)))
 	mux.Handle("PUT /updateJobRole", middleware(http.HandlerFunc(jobrole.UpdateRole)))
 	mux.Handle("PUT /expireJobRole", middleware(http.HandlerFunc(jobrole.ExpireRole)))
+	mux.Handle("PUT /activateJobRole", middleware(http.HandlerFunc(jobrole.ActivateRole)))
 	mux.Handle("DELETE /deleteJobRole", middleware(http.HandlerFunc(jobrole.DeleteRole)))
 
 	mux.HandleFunc("GET /formJobData", form.GetFormData)
+
 	mux.HandleFunc("POST /submitForm", candidates.SubmitForm)
+	mux.Handle("GET /allCandidate", middleware(http.HandlerFunc(candidates.AllCandidates)))
 }

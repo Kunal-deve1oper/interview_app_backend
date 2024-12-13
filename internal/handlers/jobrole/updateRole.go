@@ -13,9 +13,11 @@ import (
 )
 
 /*
-path = /updateJobRole
-method = POST
-authentication = Bearer token
+# function to update a job role
+
+	path = /updateJobRole
+	method = POST
+	authentication = Bearer token
 
 	example payload = {
 	  "id": "48e160e1-3a66-4dc5-a9ee-aba701fc1fb5",
@@ -27,6 +29,27 @@ authentication = Bearer token
 	  "expired": false,
 	  "createdAt": "2024-11-29T19:48:49.925669Z",
 	  "updatedAt": "2024-11-29T19:48:49.925669Z"
+	}
+
+# RESPONSE
+
+	if all good
+	status code : 201
+	{
+	  "id": "48e160e1-3a66-4dc5-a9ee-aba701fc1fb5",
+	  "name": "Go developer",
+	  "skills": "GO,CSS,HTML,JAVASCRIPT,AWS",
+	  "experience": 3,
+	  "minATS": 80,
+	  "createdBy": "a6316878-b270-4b41-9d29-647e0478d1e3",
+	  "expired": false,
+	  "createdAt": "2024-11-29T19:48:49.925669Z",
+	  "updatedAt": "2024-11-29T19:48:49.925669Z"
+	}
+
+	if error
+	{
+		"error": error message,
 	}
 */
 func UpdateRole(w http.ResponseWriter, r *http.Request) {

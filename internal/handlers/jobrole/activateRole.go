@@ -13,10 +13,10 @@ import (
 )
 
 /*
-# function to delete a job role
+# function to activate a job role
 
-	path = /deleteJobRole?id=<item_to_delete id>
-	method = DELETE
+	path = /activateJobRole?id=<item_to_activate id>
+	method = PUT
 	authentication = Bearer token
 
 # RESPONSE
@@ -33,32 +33,31 @@ import (
 		"error": error message,
 	}
 */
-func DeleteRole(w http.ResponseWriter, r *http.Request) {
-	r.Body.Close()
+func ActivateRole(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 
 	// accessing claims set my the middleware
 	claims, ok := r.Context().Value(middleware.UserClaimsKey).(*models.UserClaims)
 	if !ok {
-		utils.SendErrorResponse(w, http.StatusInternalServerError, "Unable to get claims", "Unable to get claims")
-		log.Print("Unable to get claims")
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "unable to get claims", "unable to get claims")
+		log.Print("unable to get claims")
 		return
 	}
 
 	// Validate required fields
 	id := r.URL.Query().Get("id")
-	if strings.TrimSpace(id) == "" || strings.TrimSpace(claims.UserID["id"]) == "" {
-		utils.SendErrorResponse(w, http.StatusBadRequest, "id is missing", "id is missing")
+	if strings.TrimSpace(id) == "" && strings.TrimSpace(claims.UserID["id"]) == "" {
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "id is missing", "id is missing")
 		log.Print("Validation failed: id is missing")
 		return
 	}
 
-	// deleting a job role
-	res, err := jobrolequery.DeleteRoleFromDB(id, claims.UserID["id"])
+	// updating expired in the database
+	res, err := jobrolequery.ActivateRoleInDB(id, claims.UserID["id"])
 	if err != nil {
-		log.Println(err)
-		utils.SendErrorResponse(w, http.StatusInternalServerError, "failed to delete row", "failed to delete row")
-		log.Printf("failed to delete row: %s", id)
+		utils.SendErrorResponse(w, http.StatusInternalServerError, "failed to update row", "failed to update row")
+		log.Printf("failed to update row: %s", id)
 		return
 	}
 
@@ -76,7 +75,7 @@ func DeleteRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// sending back Id of deleted job role
+	// sending back Id of activated job role
 	w.WriteHeader(http.StatusOK)
 	jsonResponse := map[string]string{"id": id}
 	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {

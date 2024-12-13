@@ -8,6 +8,7 @@ type Candidate struct {
 	Email             string    `json:"email"`
 	PhoneNo           string    `json:"phoneNo"`
 	Photo             string    `json:"photo"`
+	Gender            string    `json:"gender"`
 	Country           string    `json:"country"`
 	Cv                string    `json:"cv"`
 	Dob               string    `json:"dob"`
@@ -34,6 +35,7 @@ type UserCandidate struct {
 	Email             string  `json:"email"`
 	PhoneNo           string  `json:"phoneNo"`
 	Photo             string  `json:"photo"`
+	Gender            string  `json:"gender"`
 	Country           string  `json:"country"`
 	Cv                string  `json:"cv"`
 	Dob               string  `json:"dob"`

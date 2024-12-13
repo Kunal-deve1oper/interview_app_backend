@@ -12,10 +12,33 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/utils"
 )
 
+/*
+# function to expire a job role
+
+	path = /expireJobRole?id=<item_to_expire id>
+	method = PUT
+	authentication = Bearer token
+
+# RESPONSE
+
+	if all good
+	status : 200
+
+	{
+		"id" : deleted role id
+	}
+
+	if error
+
+	{
+		"error": error message,
+	}
+*/
 func ExpireRole(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 
+	// accessing claims set my the middleware
 	claims, ok := r.Context().Value(middleware.UserClaimsKey).(*models.UserClaims)
 	if !ok {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "unable to get claims", "unable to get claims")
@@ -23,6 +46,7 @@ func ExpireRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate required fields
 	id := r.URL.Query().Get("id")
 	if strings.TrimSpace(id) == "" && strings.TrimSpace(claims.UserID["id"]) == "" {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "id is missing", "id is missing")
@@ -30,6 +54,7 @@ func ExpireRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// updating expired in the database
 	res, err := jobrolequery.ExpireJobRoleInDB(id, claims.UserID["id"])
 	if err != nil {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "failed to update row", "failed to update row")
@@ -44,12 +69,14 @@ func ExpireRole(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// checking if the item to be deleted is found or not
 	if rowsAffected == 0 {
 		utils.SendErrorResponse(w, http.StatusNotFound, "id not found in the DB", "id not found in the DB")
 		log.Print("id not found in the DB")
 		return
 	}
 
+	// sending back Id of deactivated job role
 	w.WriteHeader(http.StatusOK)
 	jsonResponse := map[string]string{"id": id}
 	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {
@@ -57,5 +84,4 @@ func ExpireRole(w http.ResponseWriter, r *http.Request) {
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Response generation failed", "Failed to encode JSON response")
 		return
 	}
-
 }
