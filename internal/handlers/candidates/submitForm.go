@@ -10,6 +10,50 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/utils"
 )
 
+/*
+# function to add candidate
+
+	path = /submitForm
+	method = POST
+	body = json
+
+	data = {
+		"name": "Rajit Dutta",
+		"email": "johndoe@example.com",
+		"phoneNo": "1234567890",
+		"gender": "Male",
+		"photo": "https://example.com/photos/johndoe.jpg",
+		"country": "United States",
+		"cv": "https://example.com/cvs/johndoe.pdf",
+		"dob": "1990-01-01",
+		"highestDegree": "Master's in Computer Science",
+		"highestDegreeCGPA": 3.8,
+		"yog": "2015",
+		"prevEmployer": "Tech Corp",
+		"experience": 7,
+		"prevJobTitle": "Software Engineer",
+		"duration": "4",
+		"isEmployed": true,
+		"skills": "JavaScript,React,Node.js",
+		"referralCode": "REF12345",
+		"referralName": "Jane Smith",
+		"links":"https://linkedin.com/in/johndoe,https://github.com/johndoe",
+		"jobRole": "8c313455-83c1-4495-b5a5-d10a89225a31"
+	}
+
+# RESPONSE
+
+	if all good
+	status: 201
+	{
+		"msg": "created"
+	}
+
+	if error
+	{
+		"error": error message,
+	}
+*/
 func SubmitForm(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
