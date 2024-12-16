@@ -11,10 +11,33 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/utils"
 )
 
+/*
+# Function to get details of a job
+
+	path = /formJobData?id=<job_role id>
+	method = GET
+
+# RESPONSE
+
+	if all good
+	status : 200
+	{
+		"name" : "Go developer",
+		"skills" : "GO",
+		"experience" : 3,
+		"expired" : false
+	}
+
+	if error
+	{
+		"error": error message,
+	}
+*/
 func GetFormData(w http.ResponseWriter, r *http.Request) {
 	r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 
+	// Validate required fields
 	id := r.URL.Query().Get("id")
 	if strings.TrimSpace(id) == "" {
 		utils.SendErrorResponse(w, http.StatusBadRequest, "id is missing", "id is missing")
@@ -22,7 +45,8 @@ func GetFormData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name, skills, experience, err := formquery.GetJobDataFromDB(id)
+	// getting data for displaing in the form
+	name, skills, experience, expired, err := formquery.GetJobDataFromDB(id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			utils.SendErrorResponse(w, http.StatusNotFound, "no job found", "no job found")
@@ -34,10 +58,12 @@ func GetFormData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// sending the data to the user
 	jsonResponse := map[string]interface{}{
 		"name":       name,
 		"skills":     skills,
 		"experience": experience,
+		"expired":    expired,
 	}
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {

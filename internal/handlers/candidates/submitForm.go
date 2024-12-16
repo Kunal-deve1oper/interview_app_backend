@@ -38,7 +38,8 @@ import (
 		"referralCode": "REF12345",
 		"referralName": "Jane Smith",
 		"links":"https://linkedin.com/in/johndoe,https://github.com/johndoe",
-		"jobRole": "8c313455-83c1-4495-b5a5-d10a89225a31"
+		"jobRole": "8c313455-83c1-4495-b5a5-d10a89225a31",
+		"roleName" : "Go developer"
 	}
 
 # RESPONSE
@@ -77,6 +78,8 @@ func SubmitForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// mailBody := utils.SubmitMailTemplate(candidateInput.Name, candidateInput.RoleName, "Planet Interview", "xyz", candidateInput.Email, "support@planetinterview.com")
+	// utils.SendMail("Application Confirmation", candidateInput.Email, mailBody)
 	w.WriteHeader(http.StatusCreated)
 	jsonResponse := map[string]string{"msg": "created"}
 	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {

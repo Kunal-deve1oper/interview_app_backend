@@ -52,4 +52,5 @@ type UserCandidate struct {
 	ReferralName      string  `json:"referralName"`
 	Links             string  `json:"links"`
 	JobRole           string  `json:"jobRole"`
+	RoleName          string  `json:"roleName"`
 }

@@ -33,7 +33,8 @@ func ValidateJWT(tokenString string) (*models.UserClaims, error) {
 		claims.UserID["id"] == "" ||
 		claims.UserID["name"] == "" ||
 		claims.UserID["email"] == "" ||
-		claims.UserID["orgId"] == "" {
+		claims.UserID["orgId"] == "" ||
+		claims.UserID["orgName"] == "" {
 		return nil, fmt.Errorf("missing required claims")
 	}
 
