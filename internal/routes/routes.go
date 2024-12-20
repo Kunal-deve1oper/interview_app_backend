@@ -26,4 +26,5 @@ func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handl
 	mux.Handle("GET /singleCandidate", middleware(http.HandlerFunc(candidates.SingleCandidate)))
 	mux.HandleFunc("POST /submitForm", candidates.SubmitForm)
 	mux.Handle("PUT /selectCandidate", middleware(http.HandlerFunc(candidates.SelectCandidates)))
+	mux.Handle("PUT /rejectCandidate", middleware(http.HandlerFunc(candidates.RejectCandidate)))
 }

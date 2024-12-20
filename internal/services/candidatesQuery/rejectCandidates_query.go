@@ -8,7 +8,7 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/config"
 )
 
-func UpdateSelectedToDB(id, adminId string) (sql.Result, error) {
+func UpdateRejectedToDB(id, adminId string) (sql.Result, error) {
 	query := `
 			UPDATE "Candidates"
 			SET "selected" = $1, "updatedAt" = CURRENT_TIMESTAMP 
@@ -26,7 +26,7 @@ func UpdateSelectedToDB(id, adminId string) (sql.Result, error) {
 	}
 	defer stmt.Close()
 
-	res, err := stmt.Exec("accept", id, adminId)
+	res, err := stmt.Exec("reject", id, adminId)
 	if err != nil {
 		return nil, err
 	}

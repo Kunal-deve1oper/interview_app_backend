@@ -13,6 +13,7 @@ type Candidate struct {
 	Cv                string    `json:"cv"`
 	Dob               string    `json:"dob"`
 	HighestDegree     string    `json:"highestDegree"`
+	HighestDegreeOrg  string    `json:"highestDegreeOrg"`
 	HighestDegreeCGPA float64   `json:"highestDegreeCGPA"`
 	Yog               string    `json:"yog"`
 	PrevEmployer      string    `json:"prevEmployer"`
@@ -25,7 +26,7 @@ type Candidate struct {
 	ReferralName      string    `json:"referralName"`
 	Links             string    `json:"links"`
 	JobRole           string    `json:"jobRole"`
-	Selected          bool      `json:"selected"`
+	Selected          string    `json:"selected"`
 	CreatedAt         time.Time `json:"createdAt"`
 	UpdatedAt         time.Time `json:"updatedAt"`
 }
@@ -40,6 +41,7 @@ type UserCandidate struct {
 	Cv                string  `json:"cv"`
 	Dob               string  `json:"dob"`
 	HighestDegree     string  `json:"highestDegree"`
+	HighestDegreeOrg  string  `json:"highestDegreeOrg"`
 	HighestDegreeCGPA float64 `json:"highestDegreeCGPA"`
 	Yog               string  `json:"yog"`
 	PrevEmployer      string  `json:"prevEmployer"`

@@ -13,9 +13,9 @@ import (
 )
 
 /*
-# function to select a candidate
+# function to reject a candidate
 
-	path = /selectCandidate?id=<candidate id>
+	path = /rejectCandidate?id=<candidate id>
 	method = PUT
 	authentication = Bearer token
 
@@ -25,7 +25,7 @@ import (
 	status : 200
 	{
 		"id" : <selected candidate id>,
-		"selected": "accept"
+		"selected": "reject"
 	}
 
 	if error
@@ -33,7 +33,7 @@ import (
 		"error": error message,
 	}
 */
-func SelectCandidates(w http.ResponseWriter, r *http.Request) {
+func RejectCandidate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	w.Header().Set("Content-Type", "application/json")
 
@@ -53,7 +53,7 @@ func SelectCandidates(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := candidatesquery.UpdateSelectedToDB(id, claims.UserID["id"])
+	res, err := candidatesquery.UpdateRejectedToDB(id, claims.UserID["id"])
 	if err != nil {
 		log.Println(err)
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "failed to update candidate", "failed to update candidate")
@@ -77,7 +77,7 @@ func SelectCandidates(w http.ResponseWriter, r *http.Request) {
 
 	// sending back Id of deleted job role
 	w.WriteHeader(http.StatusOK)
-	jsonResponse := map[string]string{"id": id, "selected": "accept"}
+	jsonResponse := map[string]string{"id": id, "selected": "reject"}
 	if err := json.NewEncoder(w).Encode(jsonResponse); err != nil {
 		log.Printf("Failed to encode JSON response: %v", err)
 		utils.SendErrorResponse(w, http.StatusInternalServerError, "Response generation failed", "Failed to encode JSON response")

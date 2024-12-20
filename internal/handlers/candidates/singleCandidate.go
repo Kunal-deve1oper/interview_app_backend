@@ -35,6 +35,7 @@ import (
 		"cv": "https://example.com/cvs/johndoe.pdf",
 		"dob": "1990-01-01",
 		"highestDegree": "Master's in Computer Science",
+		"highestDegreeOrg": "NSEC",
 		"highestDegreeCGPA": 3.8,
 		"yog": "2015",
 		"prevEmployer": "Tech Corp",

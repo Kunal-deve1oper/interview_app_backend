@@ -35,6 +35,7 @@ import (
 			"cv": "https://qjjltpmoudplzbqwjbvy.supabase.co/storage/v1/object/public/candidate-cv/VB2fmDw6p4kGyKTDfgavi.pdf",
 			"dob": "2024-12-04",
 			"highestDegree": "B.Tech in CSE",
+			"highestDegreeOrg": "NSEC",
 			"highestDegreeCGPA": 9,
 			"yog": "2024",
 			"prevEmployer": "",
