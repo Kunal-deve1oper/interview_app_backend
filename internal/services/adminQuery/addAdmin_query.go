@@ -1,0 +1,5 @@
+package adminquery
+
+func AddAdminFromDB() {
+
+}

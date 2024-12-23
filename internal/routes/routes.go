@@ -6,6 +6,7 @@ import (
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/candidates"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/form"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/jobrole"
+	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/organization"
 )
 
 func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handler) {
@@ -27,4 +28,7 @@ func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handl
 	mux.HandleFunc("POST /submitForm", candidates.SubmitForm)
 	mux.Handle("PUT /selectCandidate", middleware(http.HandlerFunc(candidates.SelectCandidates)))
 	mux.Handle("PUT /rejectCandidate", middleware(http.HandlerFunc(candidates.RejectCandidate)))
+
+	// organisation routes
+	mux.Handle("GET /allAdmin", middleware(http.HandlerFunc(organization.AllAdmin)))
 }

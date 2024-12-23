@@ -1,5 +1,0 @@
-package organizationquery
-
-func AllOrganizationFromDB() {
-
-}

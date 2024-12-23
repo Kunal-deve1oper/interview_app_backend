@@ -1,5 +1,0 @@
-package adminquery
-
-func AllAdminFromDB() {
-
-}
