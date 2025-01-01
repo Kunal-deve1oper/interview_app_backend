@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app1:
+    build: .
+    container_name: app1
+    expose:
+      - "8080"
+    env_file:
+      - .env
+    networks:
+      - load-balancing
+  
+  app2:
+    build: .
+    container_name: app2
+    expose:
+      - "8080"
+    env_file:
+      - .env
+    networks:
+      - load-balancing
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app1
+      - app2
+    networks:
+      - load-balancing
+
+networks:
+  load-balancing:
