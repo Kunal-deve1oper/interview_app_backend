@@ -17,6 +17,9 @@ func main() {
 	config.InitDB()
 	defer config.DB.Close()
 
+	config.InitRedis()
+	defer config.RedisClient.Close()
+
 	s := server.New()
 	if err := s.Start(); err != nil {
 		log.Fatalf("could not start the server: %v", err)

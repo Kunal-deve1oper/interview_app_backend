@@ -1,4 +1,12 @@
 services:
+  redis:
+    image: redis:latest
+    container_name: interview_redis
+    expose:
+      - "6379"
+    networks:
+      - load-balancing
+  
   app1:
     build: .
     container_name: app1
@@ -6,6 +14,8 @@ services:
       - "8080"
     env_file:
       - .env
+    depends_on:
+      - redis
     networks:
       - load-balancing
   
@@ -16,6 +26,8 @@ services:
       - "8080"
     env_file:
       - .env
+    depends_on:
+      - redis
     networks:
       - load-balancing
 
