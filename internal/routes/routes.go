@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/calendar"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/candidates"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/form"
 	"github.com/Kunal-deve1oper/interview_app_backend/internal/handlers/jobrole"
@@ -31,4 +32,7 @@ func RegisterRoutes(mux *http.ServeMux, middleware func(http.Handler) http.Handl
 
 	// organisation routes
 	mux.Handle("GET /allAdmin", middleware(http.HandlerFunc(organization.AllAdmin)))
+
+	// calendar routes
+	mux.Handle("POST /addCalendar", middleware(http.HandlerFunc(calendar.AddCalendar)))
 }
